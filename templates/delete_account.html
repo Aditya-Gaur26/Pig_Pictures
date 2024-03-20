@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Account</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/delete_account.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+</head>
+<body>
+
+    <button  onclick="goback()" style="background-image: url('{{ url_for('static', filename='images/logo.png') }}');" class="fade-in" id="image-box"></button>
+    <div class="container fade-in">
+        <h1 class="slide-up">Delete Account</h1>
+        <p>Are you sure you want to delete your account?</p>
+        <form id="delete-account-form" action="{{ url_for('delete_account') }}" method="POST">
+            <div class="form-group">
+                <label for="password">Enter Your Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button onclick="goback()" type="submit" class="slide-up">Delete Account</button>
+            <a  class="slide-up">Cancel</a>
+        </form>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+
+    <!-- <script src="{{ url_for('static', filename='scripts.js') }}"></script> -->
+</body>
+</html>

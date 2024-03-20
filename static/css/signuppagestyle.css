@@ -1,0 +1,179 @@
+*{
+    margin:0%;
+}
+
+.page-1{
+    width:90%;
+    margin:auto;
+    margin-bottom: 5%;
+}
+
+.whats-new{
+    width:40%;
+    background-color:blanchedalmond;
+    float:right;
+    margin-top:2%;
+    height:615px;
+    color: blanchedalmond;
+    border: 4px solid black;
+    border-radius: 40px;
+}
+
+.whats-new-heading{
+    font-size:100px;
+    text-align:center;
+    text-decoration: underline;
+    color: #333;
+}
+
+.image-div{
+    border :1px solid black;
+    height: 125px;
+    width: 27%;
+   
+    border-radius: 20px;
+    background-size: cover;
+    cursor: pointer;
+    position:relative;
+    top:-63px;
+    
+
+}
+
+.signup-info{
+   
+    width:55%;
+    height:590px;
+    background-color: #fff;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border: 2px solid #333;
+    position: relative;
+}
+
+.field-names{
+    /* border:1px solid red; */
+    width:20%;
+    margin-left: 60px;
+    float:left;
+    margin-top:5px;
+
+}
+
+.field-type1{
+    /* border:1px solid black; */
+    width:90%;
+    font-size:20px; 
+    margin: 53px;
+    font-style: italic;
+}
+
+.field-values{
+    width: 65%;
+    float:right;
+    /* border:2px solid orange; */
+    margin-right:27px;
+    margin-top:26px;
+}
+
+.input-boxtype1{
+    width: 59%;
+    font-size: 15px;
+    /* border: 1px solid black; */
+    margin: 19px;
+    padding: 10px;
+    position: absolute;
+    top: -28px;
+    right: 10px;
+    border: groove;
+}
+
+
+.anchor-tags{
+    /* border:1px solid black; */
+    margin-top: 30px;
+    width: 32%;
+    margin-left:910px;
+    height:40px;
+    display: flex;
+    justify-content:space-evenly;
+    font-size: x-large;
+   
+
+}
+
+.login:hover{
+    color: red;
+    font-size: xx-large;
+    
+
+}
+.back-to-home:hover{
+    color: red;
+    font-size: xx-large;
+  
+}
+.back-to-home{
+    color:black;
+}
+.login{
+    color:black;
+}
+
+
+.button-tag{
+    height:42.67px;
+    /* border:1px solid red; */
+    width:20%;
+    margin-left: 200px;
+   
+
+}
+
+.sign-in-button {
+    padding: 10px;
+    font-size: xx-large;
+    margin-left: 381px;
+    color:white;
+    background-color:crimson;
+    border-radius: 10px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 13px;
+   
+
+}
+.sign-in-button:hover{
+
+    color:white;
+    background-color: purple ;
+    position: absolute;
+    bottom: 10px;
+    font-size:40px;
+    margin-left: 370px;
+    font-style: italic;
+
+}
+
+.labels{
+    /* border: 1px solid black; */
+    font-size: 23px;
+    font-style: italic;
+}
+
+.field-contaner{
+    /* border: 1px solid black; */
+    position: relative;
+    margin: 31px;
+    height: 42px;
+}
+.select-box{
+    font-size: 22px;
+    position: absolute;
+    top: -8px;
+    right: 31px;
+    width: 420px;
+    height: 42px;
+    border: groove;
+}
+

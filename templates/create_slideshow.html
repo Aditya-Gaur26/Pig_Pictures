@@ -1,0 +1,1175 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Video Customization</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    @keyframes image-loader1 {
+      0% { background-image: url("{{ url_for('static', filename='images/image1.jpg') }}"); }
+      25% { background-image: url("{{ url_for('static', filename='images/image2.webp') }}"); }
+      50% { background-image: url("{{ url_for('static', filename='images/image3.webp') }}"); }
+      75% { background-image: url("{{ url_for('static', filename='images/image4.jpg') }}"); }
+      100% { background-image: url("{{ url_for('static', filename='images/image1.jpg') }}"); }
+    }
+
+    *{
+        margin:0;
+        padding:0;
+    }
+
+    body{
+        background-color: bisque;
+    }
+
+    #logo{
+        background-image: url("{{ url_for('static', filename='images/logo.png') }}");
+        height:125px;
+        width:28%;
+        border-radius: 10%;
+        cursor: pointer;
+    }
+
+    #preview-container {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        width: 90%;
+        margin-top: 20px;
+    }
+
+    #preview {
+        width:60%;
+        height:400px;
+        border:10px solid aqua;
+        border-radius:10%;
+        margin-right: 10px;
+        margin-left: 30px;
+        border-style:ridge;
+        background-size: cover;
+    }
+
+    #audio-container {
+        width: 45%;
+        margin-left: 10px;
+    }
+
+    #heading {
+        width:19.5%;
+        text-align: center;
+        margin:auto;
+        margin-top:2%;
+        margin-bottom: 2.5%;
+        text-decoration: overline underline;
+        padding:1%;
+        background-color:beige;
+        border-radius: 10%;
+    }
+
+    .image-container{
+        /* animation-name: image-loader1;
+        animation-duration: 15s; */
+        /* animation-iteration-count: infinite; */
+        height: 400px;
+        width: 100%;
+        border-radius: 10%;
+        border: 1px solid black;
+        background-size: cover;
+        background-image: none;
+    }
+
+    #controls{
+        margin-top: 3%;
+        border:1px solid black;
+        padding: 3%;
+        margin-bottom: 1%;
+        background-color: pink;
+    }
+
+    #customize-btn{
+        padding:1%;
+        font-size: 20px;
+        margin-bottom: 0;
+        margin-left:45%;
+        border-radius: 15%;
+        background-color: hotpink;
+        cursor: pointer;
+    }
+
+    #customize-btn:hover{
+        background-color: red;
+    }
+
+    #ending-nav{
+        border:1px solid black;
+        padding:0.5%;
+        background-color: black;
+        text-align: center;
+        width: 98.92%;
+        color:white;
+    }
+
+    .fade-in {
+        animation: fadeIn 0.5s ease forwards;
+        opacity: 0;
+    }
+
+    .slide-up {
+        animation: slideUp 0.5s ease forwards;
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideUp {
+        from {
+            transform: translateY(50px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    #number_of_images {
+      margin-bottom: 10px;
+      margin-left: 5px;
+      margin-right: 80px;
+    }
+
+    #video_name {
+      margin-bottom: 10px;
+      margin-left: 5px;
+      margin-right: 80px;
+    }
+
+    .image-control {
+      margin-bottom: 10px;
+      margin-left: 5px;
+      margin-right: 8px;
+    }
+
+    #audio-container {
+        text-align: center;
+    }
+
+    #audio-list {
+        list-style-type: none;
+    }
+
+    .details {
+        margin-left: 5px;
+    }
+    
+    #videoContainer {
+        width: 70%;
+        height: 70%;
+        background-image: url("{{ url_for('static', filename='images/cute_pig.avif') }}");
+        border: 1px solid black;
+        max-width: calc(100% - 40px); /* Adjust for padding */
+        max-height: calc(100% - 40px); /* Adjust for padding */
+        margin: 10vh auto ;
+        border-radius:50px;
+        padding: 20px;
+    }
+
+    #videoContainer video {
+        width: 80%;
+        height: 90%;
+        object-fit: contain; /* Adjust the object-fit property as needed */
+        border: 2px solid pink;
+        border-radius: 15px;
+        margin-left: 6.5vw;
+    }
+
+    .control-buttons {
+        position:relative;
+        bottom: 10px;
+        left: 50%;
+        top: 5px;
+        transform: translateX(-50%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .control-buttons button {
+        margin: 0 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 32px;
+        color: #2ad01b;
+    }
+
+    .progress-container {
+        position: relative;
+        width: 100%;
+        height: 10px; /* Adjust the height of the progress bar */
+        background-color: #ccc; /* Background color of the progress container */
+        margin-top: 25px; /* Adjust as needed */
+        border-radius: 5px; /* Rounded corners */
+    }
+
+    #progress-bar {
+        width: 0;
+        height: 100%;
+        background-color: #8e5114; /* Color of the progress bar */
+        transition: width 0.1s ease; /* Smooth transition effect */
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    #progress-image {
+        position: absolute;
+        top: -5px;
+        left: 0;
+        height: 20px;
+        width: auto;
+        z-index: 1; /* Ensure the image is above the progress bar */
+        /* transition: width 0.1s ease;  */
+    }
+
+    .download-button {
+        top: 5px;
+        margin-top: 40px;
+        margin-bottom: 10px; /* Adjust spacing as needed */
+        text-align: center;
+    }
+
+    .download-button button {
+        background-color: #be48b6; /* Green background */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+
+    .download-button button:hover {
+        background-color: #af4c86; /* Darker green on hover */
+    }
+
+    .blur {
+        filter: blur(50px);
+        pointer-events: none;
+    }
+
+.hide{
+    display: none;
+}
+
+.center-container{
+    position: relative;
+    right:-660px;
+    z-index: 1000px;
+}
+
+.wheel-and-hamster {
+    --dur: 1s;
+    position: relative;
+    width: 12em;
+    height: 12em;
+    font-size: 14px;
+}
+
+.wheel,
+.hamster div,
+.spoke {
+    position: absolute;
+}
+
+.hamster{
+    position:relative;
+
+}
+
+.wheel,
+.spoke {
+    border-radius: 50%;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.wheel {
+    background: radial-gradient(100% 100% at center, hsla(0, 0%, 60%, 0) 47.8%, hsl(0, 0%, 60%) 48%);
+    z-index: 2;
+}
+
+.hamster {
+    animation: hamster var(--dur) ease-in-out infinite;
+    top: 50%;
+    left: calc(50% - 3.5em);
+    width: 7em;
+    height: 3.75em;
+    transform: rotate(4deg) translate(-0.8em, 1.85em);
+    transform-origin: 50% 0;
+    z-index: 1;
+    top:19px;
+}
+
+.hamster__head {
+    animation: hamsterHead var(--dur) ease-in-out infinite;
+    border-radius: 42%;
+    top: 0;
+    left: -2em;
+    width: 2.5em;
+    height: 2.13em;
+    transform-origin: 100% 50%;
+    background: hotpink;
+}
+
+.hamster__ear {
+    animation: hamsterEar var(--dur) ease-in-out infinite;
+    background: hotpink;
+    border-radius: 50%;
+    box-shadow: -0.25em 0 hsl(30, 90%, 55%) inset;
+    top: -0.25em;
+    right: -0.25em;
+    width: 0.75em;
+    height: 0.75em;
+    transform-origin: 50% 75%;
+}
+
+.hamster__eye {
+    animation: hamsterEye var(--dur) linear infinite;
+    background-color: hsl(0, 0%, 0%);
+    border-radius: 50%;
+    top: 0.375em;
+    left: 1.25em;
+    width: 0.5em;
+    height: 0.5em;
+}
+
+.hamster__nose {
+    background: lightpink;
+    border: 0.1em solid black;
+    border-radius: 35% 65% 85% 15% / 70% 50% 50% 30%;
+    top: 0.5em;
+    left: -0.1em;
+    width: 0.4em;
+    height: 0.5em;
+}
+
+.hamster__body {
+    animation: hamsterBody var(--dur) ease-in-out infinite;
+    background: hotpink;
+    border-radius: 50% 30% 50% 30% / 40% 60% 40% 60%;
+    box-shadow: 0.1em 0.75em 0 hsl(30, 90%, 55%) 0.15em -0.5em 0 hsl(30, 90%, 80%);
+    top: 5em;
+    left: 2em;
+    width: 5em;
+    height: 3em;
+    transform-origin: 17% 50%;
+    transform-style: preserve-3d;
+    position: relative;
+}
+.hamster__limb--fr{
+    clip-path: polygon(0 0, 100% 0, 70% 80%, 60% 100%, 0% 100%, 40% 80%);
+    top: 2em;
+    left: 0.5em;
+    width: 1em;
+    height: 1.5em;
+    transform-origin: 50% 0;
+    background-color: hotpink;
+}
+
+.hamster__limb--fl {
+    clip-path: polygon(0 0, 100% 0, 70% 80%, 60% 100%, 0% 100%, 40% 80%);
+    top: 2em;
+    left: 0.5em;
+    width: 1em;
+    height: 1.5em;
+    transform-origin: 50% 0;
+    background-color    : hotpink;
+}
+
+.hamster__limb--fr {
+    animation: hamsterFRLimb var(--dur) linear infinite;
+    background-color:hotpink;
+  
+}
+
+.hamster__limb--fl {
+    animation: hamsterFLLimb var(--dur) linear infinite;
+    background-color:hotpink;
+    transform: rotate(15deg);
+}
+
+.hamster__limb--br{
+    border-radius: 0.75em 0.75em 0 0;
+    clip-path: polygon(0 0, 100% 0, 100% 30%, 70% 90%, 70% 100%, 30% 100%, 40% 90%, 0% 30%);
+    top: 1em;
+    left: 2.8em;
+    width: 1.5em;
+    height: 2.5em;
+    transform-origin: 50% 30%;
+    background-color: hotpink;
+}
+
+.hamster__limb--bl {
+    border-radius: 0.75em 0.75em 0 0;
+    clip-path: polygon(0 0, 100% 0, 100% 30%, 70% 90%, 70% 100%, 30% 100%, 40% 90%, 0% 30%);
+    top: 1em;
+    left: 2.8em;
+    width: 1.5em;
+    height: 2.5em;
+    transform-origin: 50% 30%;
+    background-color: hotpink;
+}
+
+.hamster__limb--br {
+    animation: hamsterBRLimb var(--dur) linear infinite;
+
+    transform: rotate(-25deg) translateZ(-1px);
+    background-color:hotpink;
+}
+
+.hamster__limb--bl {
+    animation: hamsterBLLimb var(--dur) linear infinite;
+    
+    transform: rotate(-25deg);
+    background-color:hotpink;
+}
+
+.hamster__tail {
+    animation: hamsterTail var(--dur) linear infinite;
+    background: hsl(0, 90%, 85%);
+    border-radius: 0.25em 50% 50% 0.25em;
+    box-shadow: 0 -0.2em 0 hsl(0, 90%, 75%) inset;
+    top: 1.5em;
+    right: -0.5em;
+    width: 1em;
+    height: 0.5em;
+    transform: rotate(30deg) translateZ(-1px);
+    transform-origin: 0.25em 0.25em;
+    background-color:hotpink;
+}
+
+.spoke {
+    animation: spoke var(--dur) linear infinite;
+    background: radial-gradient(100% 100% at center, hsl(0, 0%, 60%) 4.8%, hsla(0, 0%, 60%, 0) 5%), linear-gradient(hsla(0, 0%, 55%, 0) 46.9%, hsl(0, 0%, 65%) 47% 52.9%, hsla(0, 0%, 65%, 0) 53%) 50% 50% / 99% 99% no-repeat;
+}
+
+/* Animations */
+@keyframes hamster {
+    from,
+    to {
+        transform: rotate(4deg) translate(-0.8em, 1.85em);
+    }
+
+    50% {
+        transform: rotate(0) translate(-0.8em, 1.85em);
+    }
+}
+
+@keyframes hamsterHead {
+    from,
+    25%,
+    50%,
+    75%,
+    to {
+        transform: rotate(0);
+    }
+
+    12.5%,
+    37.5%,
+    62.5%,
+    87.5% {
+        transform: rotate(8deg);
+    }
+}
+
+@keyframes hamsterEye {
+    from,
+    90%,
+    to {
+        transform: scaleY(1);
+    }
+
+    95% {
+        transform: scaleY(0);
+    }
+}
+
+@keyframes hamsterEar {
+    from,
+    25%,
+    50%,
+    75%,
+    to {
+        transform: rotate(0);
+    }
+
+    12.5%,
+    37.5%,
+    62.5%,
+    87.5% {
+        transform: rotate(12deg);
+    }
+}
+
+@keyframes hamsterBody {
+    from,
+    25%,
+    50%,
+    75%,
+    to {
+        transform: rotate(0);
+    }
+
+    12.5%,
+    37.5%,
+    62.5%,
+    87.5% {
+        transform: rotate(-2deg);
+    }
+}
+
+@keyframes hamsterFRLimb {
+    from,
+    25%,
+    50%,
+    75%,
+    to {
+        transform: rotate(50deg) translateZ(-1px);
+    }
+
+    12.5%,
+    37.5%,
+    62.5%,
+    87.5% {
+        transform: rotate(-30deg) translateZ(-1px);
+    }
+}
+
+@keyframes hamsterFLLimb {
+    from,
+    25%,
+    50%,
+    75%,
+    to {
+        transform: rotate(-30deg);
+    }
+
+    12.5%,
+    37.5%,
+    62.5%,
+    87.5% {
+        transform: rotate(50deg);
+    }
+}
+
+@keyframes hamsterBRLimb {
+    from,
+    25%,
+    50%,
+    75%,
+    to {
+        transform: rotate(-60deg) translateZ(-1px);
+    }
+
+    12.5%,
+    37.5%,
+    62.5%,
+    87.5% {
+        transform: rotate(20deg) translateZ(-1px);
+    }
+}
+
+@keyframes hamsterBLLimb {
+    from,
+    25%,
+    50%,
+    75%,
+    to {
+        transform: rotate(20deg);
+    }
+
+    12.5%,
+    37.5%,
+    62.5%,
+    87.5% {
+        transform: rotate(-60deg);
+    }
+}
+
+@keyframes hamsterTail {
+    from,
+    25%,
+    50%,
+    75%,
+    to {
+        transform: rotate(30deg) translateZ(-1px);
+    }
+
+    12.5%,
+    37.5%,
+    62.5%,
+    87.5% {
+        transform: rotate(10deg) translateZ(-1px);
+    }
+}
+
+@keyframes spoke {
+    from {
+        transform: rotate(0);
+    }
+
+    to {
+        transform: rotate(-1turn);
+    }
+}
+
+/* Additional styles */
+
+
+  </style>
+</head>
+<body>
+    <button id="logo" class="fade-in" onclick="window.location.href='{{ url_for("user_homepage", token=token) }}'"></button>
+
+  <h1 id="heading" class="slide-up">Video Customization</h1>
+
+  <div id="preview-container" class="fade-in">
+    <div id="preview">
+       
+    </div>
+    <div id="audio-container">
+        <h2 id="audio-heading" style="font-size: 30px; text-decoration: underline; "><strong>Audios Available:</strong></h2>
+        <ul id="audio-list"></ul>
+    </div>
+
+  </div>
+  <div class="center-container">
+    <div aria-label="Pink pandi running in a metal wheel" role="img" class="wheel-and-hamster">
+        <div class="wheel"></div>
+        <div class="hamster">
+            <div class="hamster__body">
+                <div class="hamster__head">
+                    <div class="hamster__ear"></div>
+                    <div class="hamster__eye"></div>
+                    <div class="hamster__nose"></div>
+                </div>
+                <div class="hamster_limb hamster__limb--fr"></div>
+                <div class="hamster_limb hamster__limb--fl"></div>
+                <div class="hamster_limb hamster__limb--br"></div>
+                <div class="hamster_limb hamster__limb--bl"></div>
+                <div class="hamster__tail"></div>
+            </div>
+        </div>
+        <div class="spoke"></div>
+    </div>
+</div>
+  <h1 id="heading" class="slide-up">Customize</h1>
+  <form id="controls" class="fade-in" action="/create_slideshow" method="POST">
+      <label for="number_of_images">Number of Images</label>
+      <input id="number_of_images" name="number_of_images" type="number" value="2"> 
+      <label for="video_name">Video Name</label>
+      <input id="video_name" name="video_name" type="text" value="output_video"> 
+      <label for="resolution">Resolution:</label>
+      <select id="resolution" name="resolution">
+        <option value="360p">360p</option>
+        <option value="720p" selected>720p</option>
+        <option value="1080p">1080p</option>
+      </select>
+      <div id="imageControls">
+          
+      </div><br><br>
+      <button type="submit" id="customize-btn">CREATE</button>
+  </form>
+  
+  <script>
+      function filterOptions(input, datalist) {
+          var filter = input.value.toLowerCase();
+          var options = datalist.options;
+  
+          for (var i = 0; i < options.length; i++) {
+              if (options[i].value.toLowerCase().indexOf(filter) > -1) {
+                  options[i].style.display = "";
+              } else {
+                  options[i].style.display = "none";
+              }
+          }
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+      var audioList = document.getElementById('audio-list');
+      var currentAudio = null;
+
+      function playAudio(audioElement) {
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+        }
+        audioElement.play();
+        currentAudio = audioElement;
+      }
+
+      function stopAudio(audioElement) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+        currentAudio = null;
+      }
+     
+      function createAudioElement(audioFile, audioTitle) {
+        var audio = document.createElement('audio');
+        audio.src = "{{ url_for('static', filename='audio_files/') }}" + audioFile;
+        audio.controls = true;
+        audio.addEventListener('play', function() {
+          playAudio(audio);
+        });
+        audio.addEventListener('pause', function() {
+          stopAudio(audio);
+        });
+
+        // Create <p> element for audio title
+        var audioTitleElement = document.createElement('p');
+        audioTitleElement.textContent = audioTitle;
+
+        // Style the audio title element to add spacing
+        audioTitleElement.style.marginBottom = '5px'; // Adjust spacing as needed
+        audioTitleElement.style.marginTop = '15px'
+        audioTitleElement.style.fontSize = '20px'
+
+        // Append title and audio to <li>
+        var li = document.createElement('li');
+        li.appendChild(audioTitleElement);
+        li.appendChild(audio);
+
+        return li;
+      }
+
+      var audios = ['audio1.mpeg', 'audio2.mpeg', 'audio3.mpeg', 'audio4.mpeg']; // Sample audio files
+      var audioTitles = ['Nostalgia', 'Memories', 'Bhaijaan', 'Dusk']; // Audio titles
+      for (var i = 0; i < audios.length; i++) {
+        var audioFile = audios[i];
+        var audioTitle = audioTitles[i];
+        var audioElement = createAudioElement(audioFile, audioTitle);
+        audioList.appendChild(audioElement);
+      }
+    });
+  
+      document.addEventListener('DOMContentLoaded', function() {
+          var numberInput = document.getElementById('number_of_images');
+          var imageControls = document.getElementById('imageControls');
+          
+          numberInput.addEventListener('input', function() {
+            var numberOfImages = parseInt(numberInput.value);
+
+            if (numberOfImages < 0) {
+                numberInput.value = 0;
+                numberOfImages = 0;
+            }
+            imageControls.innerHTML = '';
+  
+              for (var i = 1; i <= numberOfImages; i++) {
+                  var div = document.createElement('div');
+                  div.classList.add('image-control');
+  
+                  var label = document.createElement('label');
+                  label.classList.add('details');
+                  label.textContent = 'Select Image ' + i + ':';
+  
+                  var select = document.createElement('select');
+                  select.id = 'image' + i + 'Select';
+                  select.name = 'selected_images';
+  
+                  {% for filename in all_images %}
+                      var option = document.createElement('option');
+                      option.value = '{{ filename }}';
+                      option.textContent = '{{ filename }}';
+                      select.appendChild(option);
+                  {% endfor %}
+  
+                  var durationLabel = document.createElement('label');
+                  durationLabel.classList.add('details');
+                  durationLabel.textContent = 'Image Duration (in seconds) for Image ' + i + ':';
+  
+                  var durationInput = document.createElement('input');
+                  durationInput.type = 'number';
+                  durationInput.name = 'imageDurations[]';
+                  durationInput.id = 'image' + i + 'Duration';
+                  durationInput.value = '5';
+  
+                  var musicLabel = document.createElement('label');
+                  musicLabel.classList.add('details');
+                  musicLabel.textContent = 'Background Music for Image ' + i + ':';
+  
+                  var musicInput = document.createElement('input');
+                  musicInput.type = 'text';
+                  musicInput.id = 'musicInput' + i;
+                  musicInput.name = 'backgroundMusic';
+                  musicInput.setAttribute('list', 'musicOptions' + i);
+                  musicInput.placeholder = 'Type to search...';
+  
+                  var musicDatalist = document.createElement('datalist');
+                  musicDatalist.id = 'musicOptions' + i;
+                  var musicOptions = ['Nostalgia', 'Memories', 'Bhaijaan', 'Dusk'];
+                  musicOptions.forEach(function(optionValue) {
+                      var option = document.createElement('option');
+                      option.value = optionValue;
+                      musicDatalist.appendChild(option);
+                  });
+  
+                  var imageLabel = document.createElement('label');
+                  imageLabel.classList.add('details');
+                  imageLabel.textContent = 'Select Image ' + i + ':';
+  
+                  var imageInput = document.createElement('input');
+                  imageInput.type = 'text';
+                  imageInput.id = 'imageInput' + i;
+                  imageInput.name = 'selected_images';
+                  imageInput.setAttribute('list', 'imageOptions' + i);
+                  imageInput.placeholder = 'Type to search...';
+  
+                  var imageDatalist = document.createElement('datalist');
+                  imageDatalist.id = 'imageOptions' + i;
+                  {% for filename in all_images %}
+                      var imageOption = document.createElement('option');
+                      imageOption.value = '{{ filename }}';
+                      imageDatalist.appendChild(imageOption);
+                  {% endfor %}
+  
+                  var transitionLabel = document.createElement('label');
+                  transitionLabel.classList.add('details');
+                  transitionLabel.textContent = 'Transition Effect for Image ' + i + ':';
+  
+                  var transitionSelect = document.createElement('select');
+                  transitionSelect.id = 'image' + i + 'Transition';
+                  transitionSelect.name = 'transitionEffect';
+  
+                  var transitionOption1 = document.createElement('option');
+                  transitionOption1.value = 'fade-in';
+                  transitionOption1.textContent = 'Fade-in';
+                  transitionSelect.appendChild(transitionOption1);
+  
+                  var transitionOption2 = document.createElement('option');
+                  transitionOption2.value = 'fade-out';
+                  transitionOption2.textContent = 'Fade-out';
+                  transitionSelect.appendChild(transitionOption2);
+  
+                  var transitionOption3 = document.createElement('option');
+                  transitionOption3.value = 'crossfade-in';
+                  transitionOption3.textContent = 'Crossfade-in';
+                  transitionSelect.appendChild(transitionOption3);
+  
+                  var transitionOption4 = document.createElement('option');
+                  transitionOption4.value = 'crossfade-out';
+                  transitionOption4.textContent ='Crossfade-out' ;
+                  transitionSelect.appendChild(transitionOption4);
+
+                  var transitionOption5 = document.createElement('option');
+                  transitionOption5.value = 'fade-in-fade-out';
+                  transitionOption5.textContent = 'Fade-In-Fade-Out';
+                  transitionSelect.appendChild(transitionOption5);
+
+                  var transitionOption6 = document.createElement('option');
+                  transitionOption6.value = 'crossfadeinout';
+                  transitionOption6.textContent = 'Cross-Fade-In-Out';
+                  transitionSelect.appendChild(transitionOption6);
+
+                  var transitionOption7 = document.createElement('option');
+                  transitionOption7.value = 'none';
+                  transitionOption7.textContent = 'None';
+                  transitionSelect.appendChild(transitionOption7);
+
+
+
+  
+                //   imageInput.addEventListener('change', function(event) {
+                //       var selectedImage = event.target.value;
+                //       var videoPreview = document.getElementById('preview');
+                //       videoPreview.style.backgroundImage = `url("{{ url_for('static', filename='uploads/') }}${selectedImage}")`;
+                //   });
+
+                imageInput.addEventListener('change', function(event) {
+                    var selectedImage = event.target.value;
+                    console.log("yo");
+                    fetch(`/get_image?filename=${selectedImage}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.imageData) {
+                                var imageSrc = `data:image/jpeg;base64,${data.imageData}`;
+                                var videoPreview = document.getElementById('preview');
+                                videoPreview.style.backgroundImage = `url("${imageSrc}")`;
+                            } else {
+                                console.error('Error: Image data not found in response');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching image:', error);
+                        });
+                });
+
+  
+               
+                  div.appendChild(imageLabel);
+                  div.appendChild(imageInput);
+                  div.appendChild(imageDatalist);
+                  
+                  div.appendChild(durationLabel);
+                  div.appendChild(durationInput);
+                 
+                  div.appendChild(musicLabel);
+                  div.appendChild(musicInput);
+                  div.appendChild(musicDatalist);
+                  div.appendChild(transitionLabel);
+                  div.appendChild(transitionSelect);
+  
+                  imageControls.appendChild(div);
+              }
+          });
+      });
+  </script>
+
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var imageCheckboxes = document.querySelectorAll('.image-checkbox');
+      var videoPreview = document.getElementById('preview');
+  
+      // Function to update the video preview with the selected image
+      function updatePreview(event) {
+        var selectedImage = event.target.value;
+        console.log(selectedImage)
+        videoPreview.style.backgroundImage = `url("static/uploads/${selectedImage}")`;
+      }
+  
+      // Update preview when a checkbox is clicked
+      imageCheckboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('change', updatePreview);
+      });
+
+      
+        // Get the <select> element
+        var musicInput = document.getElementById('musicInput');
+        
+        // Get the <audio> element
+        var backgroundMusic = document.getElementById('backgroundMusic');
+
+        // Add event listener to the <select> element
+        musicInput.addEventListener('change', function() {
+            // Get the selected option value
+            var selectedMusic = musicInput.value;
+            
+            // Construct the URL for the selected audio file
+            var audioUrl = "{{ url_for('static', filename='audio_files/') }}";
+
+            if (selectedMusic === 'audio1.mp3') {
+                audioUrl += 'audio1.mpeg';
+            } else if (selectedMusic === 'audio2.mp3') {
+                audioUrl += 'audio2.mpeg';
+            } else if (selectedMusic === 'audio3.mp3') {
+                audioUrl += 'audio3.mpeg';
+            } else if (selectedMusic === 'audio4.mp3') {
+                audioUrl += 'audio4.mpeg';
+            }
+
+            // Set the src attribute of the <audio> element
+            backgroundMusic.src = audioUrl;
+            
+            // Load and play the new audio
+            backgroundMusic.load();
+            backgroundMusic.play();
+
+            document.addEventListener('DOMContentLoaded', function() {
+        var imageInput = document.getElementById('imageInput');
+        var selectedImagesContainer = document.getElementById('selectedImages');
+
+        // Function to handle file selection
+        function handleFileSelect(event) {
+            var files = event.target.files;
+
+            // Clear existing selected images
+            selectedImagesContainer.innerHTML = '';
+
+            // Generate controls for each selected image
+            for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            var imageNumber = i + 1;
+
+            // Create elements for the image controls
+            var div = document.createElement('div');
+            div.classList.add('image-control');
+
+            var label = document.createElement('label');
+            label.textContent = 'Image ' + imageNumber + ':';
+
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'selected_images[]';
+            input.value = file.name;
+            input.disabled = true;
+
+            // Append elements to the container
+            div.appendChild(label);
+            div.appendChild(input);
+            selectedImagesContainer.appendChild(div);
+            }
+        }
+
+        // Listen for file selection
+        imageInput.addEventListener('change', handleFileSelect);
+        });
+        });
+
+    });
+  </script>
+
+
+<h1 id="heading" class="slide-up">Video Player</h1>
+
+<div id="videoContainer">
+    <video id="modalVideo" >
+        <source src="{{ video_static_path }}" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+   
+    <div class="control-buttons" style="margin: auto;">
+        <button onclick="rewindVideo()"><i class="fas fa-backward"></i></button>
+        <button onclick="togglePlayPause()"><i id="playPauseIcon" class="fas fa-play"></i></button>
+        <button onclick="forwardVideo()"><i class="fas fa-forward"></i></button>
+    </div>
+    <div class="progress-container">
+        <img src="{{ url_for('static', filename='images/cute-pandi.jpeg') }}" id="progress-image" alt="Cute Pandi">
+        <div id="progress-bar"></div>
+        
+    </div>
+    <div class="download-button">
+        <button onclick="downloadVideo('{{ video_url }}')">Download Video</button>
+    </div>
+   
+</div>
+
+<script>
+    function updateProgressBar(video) {
+        // Calculate the progress in percentage
+        var progress = (video.currentTime / video.duration) * 100;
+
+        // Update the progress bar width
+        var progressBar = document.getElementById('progress-bar');
+        progressBar.style.width = progress + '%';
+
+        var progressImage = document.getElementById('progress-image');
+        var containerWidth = progressBar.parentNode.offsetWidth;
+        progressImage.style.left = ((progress / 100) * containerWidth - 10) + 'px';
+    }
+
+    function togglePlayPause() {
+        var video = document.getElementById('modalVideo');
+        var playPauseIcon = document.getElementById('playPauseIcon');
+
+        if (video.paused) {
+            video.play();
+            playPauseIcon.classList.remove('fa-play');
+            playPauseIcon.classList.add('fa-pause');
+        } else {
+            video.pause();
+            playPauseIcon.classList.remove('fa-pause');
+            playPauseIcon.classList.add('fa-play');
+        }
+
+        var video = document.getElementById('modalVideo');
+        video.addEventListener('timeupdate', function () {
+            updateProgressBar(video);
+        });
+    }
+
+    function rewindVideo() {
+        var video = document.getElementById('modalVideo');
+        if (!video) return;
+
+        // Check if the video is already seeking
+        if (!video.seeking) {
+            // Subtract 5 seconds from the current time
+            video.currentTime -= 5;
+            // Listen for the 'seeked' event to handle seeking completion
+            video.addEventListener('seeked', function onSeeked() {
+                // Remove the event listener to prevent multiple seek events
+                video.removeEventListener('seeked', onSeeked);
+            });
+        }
+    }
+    
+    function forwardVideo() {
+        var video = document.getElementById('modalVideo');
+        if (!video) return;
+
+        // Check if the video is already seeking
+        if (!video.seeking) {
+            // Add 5 seconds to the current time
+            video.currentTime += 5;
+            // Listen for the 'seeked' event to handle seeking completion
+            video.addEventListener('seeked', function onSeeked() {
+                // Remove the event listener to prevent multiple seek events
+                video.removeEventListener('seeked', onSeeked);
+            });
+        }
+    }
+
+    function downloadVideo(videoPath) {
+        var a = document.createElement('a');
+        a.href = videoPath;
+        a.download = "{{ video_name }}";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
+    // document.addEventListener("DOMContentLoaded",()=>{
+    //     togglePlayPause();
+
+    // })
+    
+
+</script>
+
+<!-- js code for loader -->
+<script>
+    document.addEventListener("DOMContentLoaded",()=>{
+        document.querySelector(".center-container").classList.add("hide");
+        // document.getElementById("eading").classList.add("hide");
+        // document.querySelector("#preview-container").classList.add("hide");
+        // document.querySelector("center-container").classList.add("hide");
+        // document.querySelector("center-container").classList.add("hide");
+        
+    })
+
+    document.getElementById("customize-btn").addEventListener("click", (event) => {
+        
+        const centerContainer = document.querySelector(".center-container");
+        centerContainer.classList.remove("hide");
+
+        const allElements = document.querySelectorAll("*");
+
+    });
+
+</script>
+
+<nav id="ending-nav">2024 PIG PICTURES</nav>
+  
+</body>
+</html>

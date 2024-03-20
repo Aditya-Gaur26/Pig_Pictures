@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Slideshow</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_slideshow.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999; /* Greater z-index */
+            left: 50%;
+            top: 45%;
+            width: 70vw;
+            height: 80vh;
+            transform: translate(-50%, -50%);
+            background-color:blanchedalmond;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-open {
+            overflow: hidden;
+        }
+
+        .blur-background {
+            filter: blur(5px); /* Adjust the blur intensity as needed */
+        }
+
+        #videoContainer {
+            width: 100%;
+            height: 80%;
+            max-width: calc(100% - 40px); /* Adjust for padding */
+            max-height: calc(100% - 40px); /* Adjust for padding */
+            margin: auto;
+        }
+
+        #videoContainer video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Adjust the object-fit property as needed */
+        }
+
+        .control-buttons {
+            position: absolute;
+            bottom: 48px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .control-buttons button {
+            margin: 0 10px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 32px;
+            color: #333;
+        }
+
+        .progress-container {
+            position: relative;
+            width: 100%;
+            height: 10px; /* Adjust the height of the progress bar */
+            background-color: #ccc; /* Background color of the progress container */
+            margin-top: 10px; /* Adjust as needed */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        #progress-bar {
+            width: 0;
+            height: 100%;
+            background-color: #8e5114; /* Color of the progress bar */
+            transition: width 0.1s ease; /* Smooth transition effect */
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #progress-image {
+            position: absolute;
+            top: -5px;
+            left: 0;
+            height: 20px;
+            width: auto;
+            z-index: 1; /* Ensure the image is above the progress bar */
+            /* transition: width 0.1s ease;  */
+        }
+
+        .download-button {
+            position: relative;
+            top: 5px;
+            margin-top: 40px; /* Adjust spacing as needed */
+            text-align: center;
+        }
+
+        .download-button button {
+            background-color: #4CAF50; /* Green background */
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .download-button button:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }
+    </style>
+</head>
+
+<body style="background-color: beige">
+    <div class="top-navbar"><span>Welcome, {{ temp_user }}!</span></div>
+    <div style="font-style:italic;font-size:x-large;" class="sidebar">
+        <br> <br> <br> <br> <br> <br> <br> <br>  Tap to view the slideshow created exclusively by you!! <br>
+    </div>
+    <div class="container" id="dynamic-container">
+        {% for video_name, video_path in video_info %}
+        <div class="box" onclick="openVideo('{{ url_for('static', filename='video_files/'+video_name) }}')">{{ video_name }}</div>
+        {% endfor %}
+      </div>
+    <div id="background-wrap">
+        <div class="bubble x1"></div>
+        <div class="bubble x2"></div>
+        <div class="bubble x3"></div>
+        <div class="bubble x4"></div>
+        <div class="bubble x5"></div>
+        <div class="bubble x6"></div>
+        <div class="bubble x7"></div>
+        <div class="bubble x8"></div>
+        <div class="bubble x9"></div>
+        <div class="bubble x10"></div>
+    </div>
+    <div class="ocean">
+        <div class="wave"></div>
+        <div class="wave"></div>
+    </div>
+    <div class="bottom-navbar">2024 PIG PICTURES</div>
+
+    <script>
+        function openVideo(videoPath) {
+          displayDetails(videoPath);
+        }
+    </script>
+
+  
+
+    <script>
+        document.addEventListener("DOMContentLoaded",()=>{
+
+            (function adjustBoxSpacing() {
+                var boxes = document.querySelectorAll('.box');
+                var spacing = 20; // Adjust as needed
+
+                for (var i = 0; i < boxes.length; i++) {
+                    if (i > 0) {
+                        boxes[i].style.marginBottom = spacing + 'px';
+                    }
+                }
+            })();
+            function adjustContainerHeight() {
+        var container = document.getElementById('dynamic-container');
+        var windowHeight = window.innerHeight;
+        var containerHeight = container.scrollHeight;
+
+        if (containerHeight > windowHeight) {
+            container.style.height = '70vh'; // Adjust as needed
+            container.style.overflowY = 'scroll';
+
+            // Check if the scrollbar element exists, if not, create it
+            var scrollbar = document.getElementById('scrollbar');
+            if (!scrollbar) {
+                scrollbar = document.createElement('div');
+                scrollbar.id = 'scrollbar';
+                scrollbar.style.width = '5px'; // Adjust as needed
+                scrollbar.style.background = '#ccc'; // Customize scrollbar color
+                scrollbar.style.position = 'absolute'; // Change to 'fixed' if needed
+                scrollbar.style.top = '0';
+                scrollbar.style.right = '0';
+                scrollbar.style.bottom = '0';
+                scrollbar.style.overflowY = 'scroll';
+                scrollbar.style.zIndex = '-1';
+
+                container.appendChild(scrollbar);
+
+                scrollbar.addEventListener('scroll', function () {
+                    container.style.marginTop = -scrollbar.scrollTop + 'px';
+                });
+            }
+        } else {
+            container.style.height = 'auto';
+            container.style.overflowY = 'visible';
+
+            // If scrollbar exists, remove it
+            var scrollbar = document.getElementById('scrollbar');
+            if (scrollbar) {
+                scrollbar.parentNode.removeChild(scrollbar);
+            }
+        }
+    }
+    adjustContainerHeight();
+
+        });
+
+        var videoName = 'video';
+
+        function displayDetails(videoPath) {
+            document.body.classList.add('modal-open');
+            videoName = videoPath.split('/').pop();
+            var modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <span class="close" style="cursor:pointer;" onclick="closeModal()">&times;</span>
+                <div id="videoContainer">
+                    <video id="modalVideo" autoplay>
+                        <source src="${videoPath}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="control-buttons">
+                        <button onclick="rewindVideo()"><i class="fas fa-backward"></i></button>
+                        <button onclick="togglePlayPause()"><i id="playPauseIcon" class="fas fa-pause"></i></button>
+                        <button onclick="forwardVideo()"><i class="fas fa-forward"></i></button>
+                    </div>
+                    <div class="progress-container">
+                        <img src="{{ url_for('static', filename='images/cute-pandi.jpeg') }}" id="progress-image" alt="Cute Pandi">
+                        <div id="progress-bar"></div>
+                    </div>
+                    <div class="download-button">
+                        <button onclick="downloadVideo('{{ videoPath }}')">Download Video</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+            modal.style.filter = 'none';
+
+            var container = document.getElementById('dynamic-container');
+            container.classList.add('blur-background');
+
+            var video = document.getElementById('modalVideo');
+
+            video.addEventListener('timeupdate', function () {
+                updateProgressBar(video);
+            });
+        }
+
+        function updateProgressBar(video) {
+            // Calculate the progress in percentage
+            var progress = (video.currentTime / video.duration) * 100;
+
+            // Update the progress bar width
+            var progressBar = document.getElementById('progress-bar');
+            progressBar.style.width = progress + '%';
+
+            var progressImage = document.getElementById('progress-image');
+            var containerWidth = progressBar.parentNode.offsetWidth;
+            progressImage.style.left = ((progress / 100) * containerWidth - 10) + 'px';
+        }
+
+        function closeModal() {
+            // Remove the modal
+            var modal = document.querySelector('.modal');
+            if (modal) {
+                modal.parentNode.removeChild(modal);
+            }
+            document.body.classList.remove('modal-open');
+
+            var container = document.getElementById('dynamic-container');
+            container.classList.remove('blur-background');
+        }
+
+        function togglePlayPause() {
+            var video = document.getElementById('modalVideo');
+            var playPauseIcon = document.getElementById('playPauseIcon');
+
+            if (video.paused) {
+                video.play();
+                playPauseIcon.classList.remove('fa-play');
+                playPauseIcon.classList.add('fa-pause');
+            } else {
+                video.pause();
+                playPauseIcon.classList.remove('fa-pause');
+                playPauseIcon.classList.add('fa-play');
+            }
+
+            var video = document.getElementById('modalVideo');
+            video.addEventListener('timeupdate', function () {
+                updateProgressBar(video);
+            });
+        }
+
+        function rewindVideo() {
+            var video = document.getElementById('modalVideo');
+            if (!video) return;
+
+            // Check if the video is already seeking
+            if (!video.seeking) {
+                // Subtract 5 seconds from the current time
+                video.currentTime -= 5;
+                // Listen for the 'seeked' event to handle seeking completion
+                video.addEventListener('seeked', function onSeeked() {
+                    // Remove the event listener to prevent multiple seek events
+                    video.removeEventListener('seeked', onSeeked);
+                });
+            }
+        }
+        
+        function forwardVideo() {
+            var video = document.getElementById('modalVideo');
+            if (!video) return;
+
+            // Check if the video is already seeking
+            if (!video.seeking) {
+                // Add 5 seconds to the current time
+                video.currentTime += 5;
+                // Listen for the 'seeked' event to handle seeking completion
+                video.addEventListener('seeked', function onSeeked() {
+                    // Remove the event listener to prevent multiple seek events
+                    video.removeEventListener('seeked', onSeeked);
+                });
+            }
+        }
+
+        function downloadVideo(videoPath) {
+            var a = document.createElement('a');
+            a.href = videoPath;
+            a.download = videoName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    </script>
+</body>
+</html> 

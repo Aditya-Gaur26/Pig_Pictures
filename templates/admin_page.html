@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Pager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_page_styles.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Admin Dashboard</h1>
+        </header>
+        <main>
+            <section class="user-count">
+                <h2>Current Users</h2>
+                <p>Total number of users online: <span id="user-count">{{ usernames|length - 1 }}</span></p>
+                <ul id="user-list">
+                    {% for username in usernames if username != 'admin' %}
+                        <li>{{ username }} <button class="remove-btn" onclick="removeUser('{{ username }}')">Remove</button></li>
+                    {% endfor %}
+                </ul>
+            </section>
+        </main>
+    </div>
+    <div id="confirm-dialog" class="hidden">
+        <div class="dialog-content">
+            <p>Are you sure you want to remove this user?</p>
+            <button id="confirm-btn">Confirm</button>
+            <button id="cancel-btn">Cancel</button>
+        </div>
+    </div> 
+   
+    <script>
+       // Function to remove a user
+        function removeUser(username) {
+            const confirmDialog = document.getElementById('confirm-dialog');
+            const confirmButton = document.getElementById('confirm-btn');
+            const cancelButton = document.getElementById('cancel-btn');
+
+            // Show confirmation dialog
+            confirmDialog.classList.remove('hidden');
+
+            // Confirm button click handler
+            confirmButton.onclick = () => {
+                // Remove user from the database via AJAX request
+                fetch('/remove_user', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({username: username})
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                    // If the user was successfully removed from the database, reload the page
+                    window.location.reload();
+                } else {
+                    alert(data.message);
+                }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                })
+                .finally(() => {
+                    confirmDialog.classList.add('hidden');
+                });
+            };
+
+            // Cancel button click handler
+            cancelButton.onclick = () => {
+                confirmDialog.classList.add('hidden');
+            };
+        }
+
+
+        // Hide confirmation dialog when the page loads
+        document.getElementById('confirm-dialog').classList.add('hidden');
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOMEPAGE | Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_page_styles.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+  
+</head>
+
+<body>
+    <div class="sidebar">
+        <h1 style="font-style: italic;">Discover more of what matters to you.</h1>
+        <br>
+        <br>
+        <h2 style="font-style: inherit;">SLIDESHOWS</h2>
+        <br> 
+        <br> <br> <br>
+        <h2 style="font-style: initial;">IMAGE SELECTOR</h2>
+        <br> <br> <br> <br> 
+        <h2 style="font-style:inherit;">WALLPAPERS</h2>
+    </div>
+    <main >
+        <header>
+            <nav >
+                <div id="logo" style="background-image: url('{{ url_for('static', filename='images/logo.png') }}');"></div>
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('signuppage') }}">Signup</a>
+                
+            </nav>
+        </header>
+
+        <section class="reveal">
+            <div style="font-size:x-large;" class="welcome">
+                <h2>Welcome to PIG PICTURES</h2>
+                <p style="font-family: cursive;">Turning your imagination into reality.</p>
+            </div>
+        </section>
+
+        <section class="portfolio">
+           
+            <div class="portfolio">
+                <img src="{{ url_for('static', filename='images/desc1.png') }}" alt="Photo 1">
+                <img src="{{ url_for('static', filename='images/desc2.png') }}" alt="Photo 2">
+                <img src="{{ url_for('static', filename='images/desc3.png') }}" alt="Photo 3">
+            </div>
+        </section>
+
+        <section class="about reveal">
+            <h2>Team of Develepors</h2>
+            <p style="font-size: x-large;"><i>Aditya Gaur - Lead Develepor</i></p>
+            <p style="font-size:x-large;"><i>Anvithraj Reddy- Creative and Visual Head</i></p>
+            <p style="font-size:x-large;"><i>Shivam Gupta- Web Designer </i></p>
+        </section>
+
+        <section class="contact reveal">
+            <h2 style="font-weight:bolder;"">Join Us in this Mission</h2>
+            <p style="font-size:x-large;"><i>Register on our website and unleash your creativity and imagination.</i> <br>
+            <i>Pick your favourite pictures and images and create exclusive slideshows.</i> <br>
+             <i>Add your favourite music to your slideshows.<br>
+                All this for FREE!!
+             </i> </p>
+        </section>
+
+        <div class="footer">
+            <p>&copy; 2024 PIG PICTURES. All rights reserved.</p>
+        </div>
+    </main>
+
+    <script src="{{ url_for('static', filename='js/home_page.js') }}"></script>
+</body>
+
+</html>

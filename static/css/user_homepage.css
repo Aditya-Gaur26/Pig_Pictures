@@ -1,0 +1,128 @@
+#navbar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    margin: auto;
+    padding: 0;
+    width: 100%;
+    height: 80px;
+    background-color: hotpink;
+    z-index: 1;
+}
+
+#navbar a {
+    float: right;
+    display: block;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+    padding: 25px 25px;
+    text-decoration:underline;
+    margin-top:0.3%;
+    font-family: fantasy;
+    
+}
+
+#navbar a:hover{
+    color:blanchedalmond;
+}
+
+#dropdown {
+    float: right;
+    margin-top: 20px;
+    margin-right: 10px;
+}
+
+#links {
+    display: none;
+    position: absolute;
+    background-color: hotpink;
+    min-width: 100px;
+}
+
+
+#links a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+#dropdown:hover #links {
+    display: block;
+}
+
+#dropbtn {
+    width: 120px;
+    padding:6%;
+
+}
+
+#logo {
+    width: 246px;
+    height: auto;
+}
+
+#pfp {
+    width: 100px;
+    
+    height: 70px;
+    border-radius: 10px;
+    margin-top: 6px;
+    float: right;
+    margin-right: 20px;
+    background-size:cover;
+}
+
+.classify {
+    position: relative;
+    top: 20px;
+    left: 40px;
+}
+
+.dates {
+    font-size: 6vh;
+    font-family: Georgia;
+    color:#dc2787;
+    text-decoration: underline;
+}
+
+.photos {
+    position: relative;
+    width: 95%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start; 
+    align-items: center;
+}
+
+.photo {
+    width: 280px;
+    height: 280px;
+    padding: 4px 30px 60px 30px;
+    filter: drop-shadow(0 0 0.75rem red);
+}
+
+.photo:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+#typing-text {
+    margin-top: 100px;
+    margin-left: 40px;
+    border-right: 2px solid #dc2787;
+    font-family: Verdana;
+    white-space: nowrap;
+    color: #dc2787;
+    font-size: 40px;;
+    overflow: hidden;
+    width: 8em;
+    animation: typing 2s steps(50) forwards;
+}
+
+#typing-text:after {
+    content: "";
+    display: inline-block;
+    background-color: transparent;
+}

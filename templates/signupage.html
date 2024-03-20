@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign UP</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/signuppagestyle.css') }}">
+    <style>
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+
+        .slide-up {
+            animation: slideUp 0.5s ease forwards;
+            transform: translateY(50px);
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .pulse {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.5s ease forwards;
+            transform: translateX(-100%);
+            opacity: 0;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.5s ease forwards;
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+
+        .bounce {
+            animation: bounce 0.5s ease infinite alternate;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+                
+        @keyframes image-loader1 {
+            0% {
+                background-image: url("{{ url_for('static', filename='images/desc1.png') }}");
+                margin-top: 10%;
+                width: 96%;
+                height: 300px;
+            }
+            
+            25% {
+                background-image: url("{{ url_for('static', filename='images/desc1.png') }}");
+                margin-top: 10%;
+                width: 96%;
+                height: 300px;
+            }
+            
+            33% {
+                background-image: url("{{ url_for('static', filename='images/desc2.png') }}");
+                height: 200px;
+                width: 90%;
+                margin-top: 20%;
+            }
+            
+            58% {
+                background-image: url("{{ url_for('static', filename='images/desc2.png') }}");
+                height: 200px;
+                width: 90%;
+                margin-top: 20%;
+            }
+            
+            66% {
+                background-image: url("{{ url_for('static', filename='images/desc3.png') }}");
+                width: 93%;
+                height: 200px;
+                margin-top: 20%;
+            }
+            
+            91% {
+                background-image: url("{{ url_for('static', filename='images/desc3.png') }}");
+                width: 93%;
+                height: 200px;
+                margin-top: 20%;
+            }
+            
+            100% {
+                background-image: url("{{ url_for('static', filename='images/desc1.png') }}");
+                margin-top: 10%;
+                width: 96%;
+                height: 300px;
+            }
+        }
+
+        #image-box{
+            border:3px solid black;
+            height:450px;
+            width:80%;
+            margin:auto;
+            animation: image-loader1 20s  1s  infinite both;
+            background-size: cover;
+            border-radius: 5%;
+
+        }
+
+
+    </style>
+     
+</head>
+<body style="background-color: pink ;">
+
+    <div class="anchor-tags bounce">
+        <div><a class="back-to-home" href="{{ url_for('index') }}">Back To Home Page</a></div>
+        <div><a class="login" href="{{ url_for('login') }}">Login</a></div>
+        
+    </div>
+    
+    
+    <div class="page-1">
+        <div class="whats-new fade-in">
+            <h1 class="whats-new-heading">Features</h1>
+            <div id="image-box" ></div>
+        </div>
+        
+        <button onclick="window.location.href='{{url_for("index")}}'" class="image-div fade-in" style="background-image: url('{{ url_for('static', filename='images/logo.png') }}');">Your Button Text</button>
+
+            
+        </button>
+
+        <form class="signup-info fade-in" method="POST" action="/signuppage">
+            <div class="field-contaner">
+                <label class="labels" for="name">Name:</label>
+                <input class="input-boxtype1" type="text" name="name" placeholder="Enter Name" required>
+            </div>
+            <div class="field-contaner">
+                <label class="labels" for="dob">DOB:</label>
+                <input class="input-boxtype1" type = "date" name="dob" placeholder="Select DOB" required>
+            </div>
+            <div class="field-contaner">
+                <label class="labels" for="username">Username:</label>
+                <input class="input-boxtype1" type= "text" name="username" placeholder="Enter Username" required>
+            </div>
+
+            <div class="field-contaner">
+                <label class="labels" for="pwd">Password:</label>
+                <input class="input-boxtype1" type="password" id="pwd" name="pwd" placeholder="Enter Password" required>
+            </div>
+            <div class="field-contaner">
+                <label class="labels" for="cpwd">Confirm Password:</label>
+                <input class="input-boxtype1" type= "text" id="cpwd" name="cpwd" placeholder="Confirm Password" required>
+            </div>
+
+            <div class="field-contaner">
+                <label class="labels" for="security_question">Select Security Question:</label>
+                <select class="select-box" name="security_question">
+                    <option value="q1">Name of your first School?</option>
+                    <option value="q2">Favorite sport?</option>
+                    <option value="q3">What is your favorite hobby?</option>
+                </select>
+            </div>
+
+            <div  class="field-contaner">
+                <label class="labels" for="security_ans">Security Ans:</label>
+                <input class="input-boxtype1" type= "text" name="security_ans" placeholder="Enter Ans" required>
+            </div>   
+            <button class="sign-in-button slide-up" type="submit" value="Sign In">SIGN IN</button>
+        </form>
+      
+
+
+        <div class="clearfix">
+        </div>
+    </div>
+    {% if alert_message %}
+      <script>
+        alert("user already exists");
+      </script> 
+    {% endif %}
+
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            
+            document.querySelector(".signup-info").addEventListener("submit", function(event) {
+                var password = document.getElementById("pwd").value;
+                var confirmPassword = document.getElementById("cpwd").value;
+
+                // Check if passwords match
+                if (password !== confirmPassword) {
+                    // Prevent form submission
+                    event.preventDefault();
+                    // Display error message
+                    alert("password and confirm password must be same");
+                }
+            });
+        });
+    </script>
+
+
+    
+</body>
+</html>

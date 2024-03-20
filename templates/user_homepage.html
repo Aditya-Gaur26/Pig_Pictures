@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pig Pictures | Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/user_homepage.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <style>
+        /* Styling for the modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 9999; /* Greater z-index */
+            left: 50%;
+            top: 50%;
+            width: 50vw;
+            transform: translate(-50%, -50%);
+            background-color:blanchedalmond;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal h2 {
+            text-align: center;
+            font-family: Courier;
+            color:hotpink;
+            font-size: 7vh;
+            text-decoration: underline;
+        }
+
+        .modal p {
+            font-family: Courier;
+            font-size: 5vh;
+            color:hotpink;
+        }
+
+        /* Styling for the close button */
+        .close {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .modal-open {
+            overflow: hidden;
+        }
+
+    </style>
+    <style id="custom-styles"></style>
+</head>
+<body style="background-color:rgba(250, 250, 153, 0.556);">
+    <nav id="navbar" style="position:fixed;">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="logo" id="logo">
+        <div id="dropdown">
+            <button id="dropbtn">{{ user_data.username }}</button>
+            <div id="links">
+                <a onclick="displayDetails()" style="cursor: pointer;">Account Details</a>
+                <a onclick="changeprofile()" style="cursor: pointer;">Change Profile Pic</a>
+                <a id ="adminpage" href="{{ url_for('admin_page') }}">Admin Page</a>
+
+                <a style="margin-right: 27px;" href="{{ url_for('logout') }}">Logout</a>                
+            </div>
+        </div>
+        <button id="pfp" style="border: none; background: url(data:image/jpeg;base64,{{ profile_pic }}) no-repeat center center; background-size: cover;"></button>
+        
+        
+        <a class="features" href="{{ url_for('create_slideshow') }}">Create Slideshow</a>
+        <a class="features" href="{{ url_for('upload_image') }}">Add Photos</a>
+        <a class="features" href="{{ url_for('view_slideshow') }}">View Slideshow</a>
+        
+    </nav>
+
+    <h1 id="typing-text">Welcome {{ user_data.name }}!</h1>
+   
+    {% for date, images in grouped_images.items() %}
+        <h2 class="dates">{{ date }}</h2>
+        <div class="image-container">
+                
+            {% for image_blob in images %}
+                <img src="data:image/jpeg;base64,{{ image_blob }}" alt="Image" class="photo">
+            {% endfor %}
+        </div>  
+    {% endfor %}   
+
+
+    {% if user_data.username != 'admin' %}
+        <script>
+            var adminpage = document.getElementById("adminpage");
+            adminpage.style.display = "none";
+        </script>
+    {% endif %}  
+
+
+    <script>
+        // Get the length of the username
+        var usernameLength = "{{ user_data.name }}".length
+        var width = (usernameLength * 0.6 + 9) + "em";
+
+        // Calculate the animation duration based on the length of the username
+        // var animationDuration = usernameLength * 0.7; // Adjust multiplier as needed
+
+        // Apply the animation duration to the CSS using JavaScript
+        var typingText = document.getElementById('typing-text')
+        // typingText.style.animationDuration = animationDuration + 's';
+        typingText.style.width = width;
+
+        var keyframesRule = "@keyframes typing { from { width: 0; } to { width: " + width + "; border-right-color: transparent; } }";
+        var styleTag = document.getElementById('custom-styles');
+        styleTag.textContent = keyframesRule;
+
+        function displayDetails() {
+            document.body.classList.add('modal-open');
+            var modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2>Account Details</h2>
+                <p>User ID: {{ user_data.user_id }}</p>
+                <p>Name: {{ user_data.name }}</p>
+                <p>Username: {{ user_data.username }}</p>
+                <p>Date of Birth: {{ user_data.dob }}</p>
+            `;
+            document.body.appendChild(modal);
+            modal.style.display = 'block';
+            modal.style.filter = 'none';
+        }
+
+        function closeModal() {
+            // Remove the modal
+            var modal = document.querySelector('.modal');
+            if (modal) {
+                modal.parentNode.removeChild(modal);
+            }
+            document.body.classList.remove('modal-open');
+        }
+    </script>
+
+    <script>
+        function changeprofile() {
+            // Create an input element
+            const input = document.createElement('input');
+            input.type = 'file';
+        
+            // Set up event listener for when a file is selected
+            input.addEventListener('change', function() {
+                const file = input.files[0];
+                const formData = new FormData();
+                formData.append('file', file);
+        
+                // Send the file data to the server
+                fetch('/changeprofile1', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('Profile picture uploaded successfully');
+                    } else {
+                        console.error('Failed to upload profile picture');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error uploading profile picture:', error);
+                });
+            });
+        
+            // Trigger the file input dialog
+            input.click();
+            
+        }
+        </script>
+        
+
+
+</body>
+</html>

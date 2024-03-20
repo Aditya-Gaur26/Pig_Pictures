@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forget Password</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forgetpagestyle.css') }}">
+
+    <style>
+        .clearfix{
+             clear: both;
+         }
+    </style>
+</head>
+<body style="background-color: pink;">
+    <div class="forgetpage">
+        <button onclick="window.location.href='{{ url_for("index") }}'" class="image-div fade-in" style="background-image: url('{{ url_for('static', filename='images/logo.png') }}');">
+        </button>
+        
+        <div class="user-details fade-in">
+            <form id ="forgetform" class="user-details-2"  method="POST" action="/forgetpage">
+                <div class="user-details-3">
+                    <label for="username" class="text-type1 username">Enter Registered Username:</label>
+                    <input type="text" class="input-1" name="username" id="username" >
+                </div>
+               
+                <div class="user-details-3">
+                    <label for="DOB" class="text-type1 DOB">Enter DOB:</label>
+                    <input type="date" class="input-1" name="DOB" id="DOB">
+    
+                </div>
+                <div class="user-details-3">
+                    <label for="pwd" class="text-type1 pwd">New Password:</label>
+                    <input type="password" class="input-1" id="pwd" name="pwd">
+    
+                </div>
+                <div class="user-details-3">
+                    <label for="cpwd" class="text-type1 cpwd">Confirm Password:</label>
+                    <input type="password" class="input-1" id="cpwd" name="cpwd"> 
+    
+                </div>
+                <div  class="user-details-3">
+                    <label for="security_question" class="text-type1 security_question">Select Security Question:</label>
+                    <select class="select-box" name="security_question" id="security_question">
+                        <option value="q1">Name of your first School?</option>
+                        <option value="q2">Favorite sport?</option>
+                        <option value="q3">What is your favorite hobby?</option>
+                    </select>
+                </div>
+                <div class="user-details-3">
+                    <label for="security_ans" class="text-type1 security_question">Security Ans:</label>
+                    <input type="text" class="input-1" name="security_ans" id="security_ans">
+                </div>
+                <button class="button slide-up" type="submit" value="Change Password">Change Password</button>
+            </form>
+            <div class="anchors-and-tags">
+                <div class="link-container">
+                    <a class="links slide-up" href="{{ url_for('login') }}">Login</a>
+                    <a class="links slide-up" href="{{ url_for('signuppage') }}">Sign Up</a>
+                    <a class="links slide-up" href="{{ url_for('index') }}">Home Page</a>
+                    
+                </div>
+              
+            </div>
+           
+            
+                
+        </div>
+    {% if alert_message %}
+        <script>
+            alert("{{ alert_message }}");
+        </script>
+    {% endif %}
+
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("DOM fully loaded");
+
+            document.querySelector(".user-details-2").addEventListener("submit", function(event) {
+                
+
+                let password = document.getElementById("pwd").value;
+                let confirmPassword = document.getElementById("cpwd").value;
+
+                console.log("Password:", password);
+                console.log("Confirm Password:", confirmPassword);
+
+                // Check if passwords match
+                if (password !== confirmPassword) {
+                    // Prevent form submission
+                    event.preventDefault();
+
+                    // Display error message
+                    alert("Password and confirm password must be the same");
+                    
+                } else {
+                    console.log("Password and confirm password match");
+                }
+            });
+        });
+    </script>

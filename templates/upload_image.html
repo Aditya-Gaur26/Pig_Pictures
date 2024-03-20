@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Upload Images</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" /> 
+<link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}">       
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<style>
+    body {
+        background-color: pink;
+    }
+
+    h1 {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        color: #a1512f;
+        font-size: 50px;
+        margin-top: 50px;
+    }
+    
+    .container {
+        margin-top: 45px;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 35px;
+        font-family: Geneva;
+        color: rgb(92, 124, 28);
+    }
+    #logo{
+        background-image: url("{{ url_for('static', filename='images/logo.png') }}");
+        height:125px;
+        width:28%;
+        border-radius: 10%;
+        cursor: pointer;
+    }
+    .content {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 20px;
+        color: rgb(92, 124, 28);
+    }
+    form {
+        width:80%;
+        margin-left: 10vw;
+        
+    }
+
+    form p input{
+        margin-top: 5vh;
+        height: 6vh;
+        border-radius: 1vh;
+        width:15%;
+        padding: 2vh;
+
+    }
+
+    /* Drag and drop box styles */
+    .drop-box {
+        border: 2px dashed #9e0101;
+        border-radius: 5px;
+        padding: 20px;
+        text-align: center;
+        margin-top: 20px;
+        min-height:50vh;
+        min-width: 50vw;
+    }
+    .drop-box.dragover {
+        background-color: #f2f2f2;
+    }
+</style>
+</head>
+<body>
+    <button id="logo" class="fade-in" onclick="window.location.href='{{ url_for("user_homepage", token=token) }}'"></button>
+<p><h1 align="center">Upload Images</h1></p>
+<div class="container">
+<div class="row">
+    <h2>Select images to upload</h2>
+    <p class="content">Click on the Choose File button below or drag and drop your favourite images here!</p>
+    <p style="margin-top: 20px; margin-left: 30px; color: #f2e966;">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </p>
+    {% for image in images %}
+        <div style="margin:auto; width: 300px; height: 200px; background-image: url('data:image/jpeg;base64,{{ image }}'); background-size: cover; margin-bottom: 20px;"></div>
+    {% endfor %}
+    <form id="upload-form" method="post" action="/upload_image" enctype="multipart/form-data">
+        <dl>
+            <p>
+                <input style="background-color: pink;" type="file" name="file" class="form-control" autocomplete="off" id="file-input" multiple required>
+            </p>
+        </dl>
+        <div class="drop-box" id="drop-box">
+            Drag & Drop Images Here
+        </div>
+        <p align="center">
+            <input type="submit" value="Submit" class="btn btn-info">
+        </p>
+        
+    </form>
+    <p align="center">
+        <a class="btn btn-primary" style="margin-left: 4.65vw;"  onclick="window.location.href='{{ url_for("user_homepage", token=token) }}'">Back To Home</a>
+    </p>
+</div>
+</div>
+
+<script>
+    const dropBox = document.getElementById('drop-box');
+
+    dropBox.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropBox.classList.add('dragover');
+    });
+
+    dropBox.addEventListener('dragleave', () => {
+        dropBox.classList.remove('dragover');
+    });
+
+    dropBox.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropBox.classList.remove('dragover');
+
+        const file = e.dataTransfer.files[0];
+        document.getElementById('file-input').files = e.dataTransfer.files;
+        // 
+        // // Set the updated FileList object to the file input
+        // fileInput.files = updatedFileList.files;
+
+
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login_page_styles.css') }}"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.png') }}">
+   
+    <style>
+        .label-1 {
+            border:1px solid black;
+        }
+        
+    </style>
+</head>
+
+
+<body>
+    <div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+     </div>
+   
+    <button class="logo fade-in" type="button" onclick="window.location.href='{{url_for("index")}}'" style="background-image: url('{{ url_for('static', filename='images/logo.png') }}');"></button>
+
+    <div class="login-container fade-in hide">
+        <h2 class="slide-up">Login</h2>
+        <form class="login-form" method="post" action="/login">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input style="border:1px solid black;" class="input-1" type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input style="border: 1px solid black; margin-left:60px;" class="input-1" type="password" id="password" name="password" required>
+                <button type="button" id="showPasswordBtn" class="show-password-btn" onclick="togglePasswordVisibility()">
+                    <span style="text-decoration: line-through;">&#128065</span><!-- Initially Slashed Eye -->
+                </button>
+            </div>
+            <div class="form-group">
+                <button id="login-button" type="submit">Login</button>
+            </div>
+            <div class="forgot-password slide-up">
+                <a href="{{ url_for('forgetpage') }}">Forgot Password?</a>
+            </div>
+        </form>
+        <div class="additional-links slide-up">
+            <a href="{{ url_for('signuppage') }}">Signup</a>
+            <a href="{{ url_for('index') }}">Back to Homepage</a>
+        </div>
+        <!-- Centered container for the wheel-and-hamster div -->
+    
+    </div>
+    <div class="center-container">
+        <div aria-label="Pink pandi running in a metal wheel" role="img" class="wheel-and-hamster">
+            <div class="wheel"></div>
+            <div class="hamster">
+                <div class="hamster__body">
+                    <div class="hamster__head">
+                        <div class="hamster__ear"></div>
+                        <div class="hamster__eye"></div>
+                        <div class="hamster__nose"></div>
+                    </div>
+                    <div class="hamster_limb hamster__limb--fr"></div>
+                    <div class="hamster_limb hamster__limb--fl"></div>
+                    <div class="hamster_limb hamster__limb--br"></div>
+                    <div class="hamster_limb hamster__limb--bl"></div>
+                    <div class="hamster__tail"></div>
+                </div>
+            </div>
+            <div class="spoke"></div>
+        </div>
+    </div>
+    {% if alert_message %}
+        <script>
+            alert("wrong username or password");
+            var d = document.querySelector(".center-container");
+            d.classList.add("hide");
+        </script> 
+    {% endif %}
+
+    <script>
+        function togglePasswordVisibility() {
+            var passwordInput = document.getElementById("password");
+            var showPasswordBtn = document.getElementById("showPasswordBtn");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                showPasswordBtn.innerHTML = '&#128065;';  // Normal eye
+            } else {
+                passwordInput.type = "password";
+                showPasswordBtn.innerHTML = '<s>&#128065;</s>';
+            }
+        }
+
+    </script>
+
+
+    <!-- js for loader  -->
+    <script>
+        document.addEventListener("DOMContentLoaded",()=>{
+            var a = document.querySelector(".center-container");
+            a.classList.add("hide")
+            document.querySelector(".login-container").classList.remove("hide");
+        })
+
+        
+        var btn = document.querySelector("#login-button");
+        btn.addEventListener("click",()=>{
+            var username = document.querySelector("#username").value;
+            var password = document.querySelector("#password").value;
+
+            // Check if username or password is empty
+            if (username.trim() === "" || password.trim() === "") {
+                return;
+            }
+            var c = document.querySelector(".center-container");
+            c.classList.remove("hide");
+            document.querySelector(".login-container").classList.add("hide");
+
+        })
+
+
+    </script>
+    
+</body>
+<div class="navbar">
+    <span>2024 PIG PICTURES</span>
+</div>
+</html>
