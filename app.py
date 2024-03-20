@@ -47,7 +47,7 @@ from moviepy.video.VideoClip import ColorClip, VideoClip
 
 
 
-db_url = "postgresql://aditya:DZAx1bXrFJrZLaGcyEtJOQ@early-faerie-8845.8nk.gcp-asia-southeast1.cockroachlabs.cloud:26257/iss_project_t1?sslmode=verify-full"
+db_url = "postgresql://aditya:DZAx1bXrFJrZLaGcyEtJOQ@early-faerie-8845.8nk.gcp-asia-southeast1.cockroachlabs.cloud:26257/iss_project_t1?sslmode=verify-full&sslrootcert=root.crt"
 conn = psycopg2.connect(db_url)
 
 app = Flask(__name__)
